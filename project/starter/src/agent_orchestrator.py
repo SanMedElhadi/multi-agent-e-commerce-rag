@@ -482,12 +482,13 @@ def build_policy_agent() -> Agent:
     """
 
     # All three retriever sub-agents share the same model settings: worker
-    # model, near-zero temperature - retrievers must relay passages, not write.
+    # model, temperature 0.0 - retrievers must relay retrieved passages
+    # verbatim and deterministically, not write.
     def _retriever_model() -> BedrockModel:
         return BedrockModel(
             model_id=config.WORKER_MODEL_ID,
             region_name=config.AWS_REGION,
-            temperature=0.1,
+            temperature=0.0,
         )
 
     def _retriever_prompt(domain: str) -> str:
